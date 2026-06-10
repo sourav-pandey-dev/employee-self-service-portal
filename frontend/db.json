@@ -1,0 +1,124 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin123",
+      "role": "Admin",
+      "name": "Admin User",
+      "email": "admin@company.com",
+      "department": "HR"
+    },
+    {
+      "id": 2,
+      "username": "sourav",
+      "password": "user123",
+      "role": "Customer",
+      "name": "Sourav Pandey",
+      "email": "sourav@company.com",
+      "department": "AI & ML"
+    },
+    {
+      "id": 3,
+      "username": "rakesh",
+      "password": "user123",
+      "role": "Customer",
+      "name": "Rakesh Mundel",
+      "email": "rakesh@company.com",
+      "department": "Development"
+    }
+  ],
+
+  "leaveRequests": [
+    {
+      "id": 1,
+      "employeeId": 2,
+      "leaveType": "Casual Leave",
+      "startDate": "2026-06-20",
+      "endDate": "2026-06-22",
+      "reason": "Family Function",
+      "status": "Pending"
+    },
+    {
+      "id": 2,
+      "employeeId": 3,
+      "leaveType": "Sick Leave",
+      "startDate": "2026-06-15",
+      "endDate": "2026-06-16",
+      "reason": "Fever",
+      "status": "Approved"
+    }
+  ],
+
+  "attendance": [
+    {
+      "id": 1,
+      "employeeId": 2,
+      "date": "2026-06-10",
+      "checkIn": "09:05",
+      "checkOut": "18:00",
+      "status": "Present"
+    },
+    {
+      "id": 2,
+      "employeeId": 3,
+      "date": "2026-06-10",
+      "checkIn": "09:45",
+      "checkOut": "18:10",
+      "status": "Late"
+    }
+  ],
+
+  "payroll": [
+    {
+      "id": 1,
+      "employeeId": 2,
+      "month": "May 2026",
+      "basicSalary": 50000,
+      "allowances": 8000,
+      "deductions": 2000,
+      "netSalary": 56000
+    },
+    {
+      "id": 2,
+      "employeeId": 3,
+      "month": "May 2026",
+      "basicSalary": 45000,
+      "allowances": 7000,
+      "deductions": 1500,
+      "netSalary": 50500
+    }
+  ],
+
+  "leaveBalances": [
+    {
+      "id": 1,
+      "employeeId": 2,
+      "casualLeave": 8,
+      "sickLeave": 6,
+      "earnedLeave": 12
+    },
+    {
+      "id": 2,
+      "employeeId": 3,
+      "casualLeave": 10,
+      "sickLeave": 5,
+      "earnedLeave": 15
+    }
+  ],
+
+  "notifications": [
+    {
+      "id": 1,
+      "employeeId": 2,
+      "message": "Your leave request is pending approval.",
+      "read": false
+    },
+    {
+      "id": 2,
+      "employeeId": 3,
+      "message": "Your payslip for May 2026 is available.",
+      "read": true
+    }
+  ]
+}
