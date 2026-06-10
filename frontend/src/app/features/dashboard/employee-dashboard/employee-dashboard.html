@@ -1,1 +1,112 @@
-<p>employee-dashboard works!</p>
+<section class="dashboard">
+  <header class="page-heading">
+    <h1>Welcome, {{ auth.currentUser()?.name }}</h1>
+    <p>Manage leave, attendance, payroll, and profile from one place.</p>
+  </header>
+
+  <section class="cards" aria-label="Quick actions">
+    <a routerLink="/leave/apply">
+      <span class="tile-icon calendar">LV</span>
+      <span>Apply Leave</span>
+    </a>
+    <a routerLink="/attendance">
+      <span class="tile-icon attendance">AT</span>
+      <span>Mark Attendance</span>
+    </a>
+    <a routerLink="/payroll">
+      <span class="tile-icon payslip">PY</span>
+      <span>View Payslips</span>
+    </a>
+    <a routerLink="/notifications">
+      <span class="tile-icon bell">NT</span>
+      <span>Notifications: {{ unreadCount() }}</span>
+    </a>
+  </section>
+
+  <section class="panel leave-panel">
+    <h2>Recent Leave Requests</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Dates</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let leave of leaves$ | async">
+            <td>{{ leave.type }}</td>
+            <td>{{ leave.fromDate }} to {{ leave.toDate }}</td>
+            <td>
+              <span class="status-pill" [class.approved]="leave.status === 'Approved'" [class.pending]="leave.status === 'Pending'">
+                {{ leave.status }}
+              </span>
+            </td>
+            <td>
+              <div class="table-actions">
+                <a routerLink="/leave/calendar" aria-label="View leave request">View</a>
+                <a *ngIf="leave.status === 'Pending'; else modifyAction" routerLink="/leave/apply" aria-label="Cancel leave request">Cancel</a>
+                <ng-template #modifyAction>
+                  <a routerLink="/leave/apply" aria-label="Modify leave request">Modify</a>
+                </ng-template>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="dashboard-grid">
+    <article class="panel calendar-panel">
+      <div class="calendar-heading">
+        <div>
+          <h2>Attendance Calendar</h2>
+          <p>Absent dates are highlighted in red.</p>
+        </div>
+        <span>{{ monthLabel }}</span>
+      </div>
+
+      <div class="calendar-grid week-row">
+        <span *ngFor="let day of weekDays">{{ day }}</span>
+      </div>
+
+      <div class="calendar-grid date-grid">
+        <span
+          *ngFor="let day of calendarDays()"
+          [class.empty]="!day.day"
+          [class.absent]="day.status === 'absent'"
+          [class.present]="day.status === 'present'"
+          [class.today]="day.today"
+          [attr.title]="day.status === 'absent' ? 'Absent' : day.status === 'present' ? 'Present' : null"
+        >
+          {{ day.day || '' }}
+        </span>
+      </div>
+
+      <div class="calendar-legend">
+        <span><i class="legend-absent"></i> Absent</span>
+        <span><i class="legend-present"></i> Present</span>
+      </div>
+    </article>
+
+    <aside class="panel events-panel">
+      <h2>My Next 3 Events</h2>
+      <ul class="event-list">
+        <li>Team Meeting (Jun 15)</li>
+        <li>Project Check-in (Jun 20)</li>
+        <li>Payroll Review (Jun 25)</li>
+      </ul>
+
+      <details open>
+        <summary>Important Notifications</summary>
+        <ul class="notification-list">
+          <li>Asha Employee got the diamond reward</li>
+          <li>Monthly attendance cut-off closes soon</li>
+        </ul>
+      </details>
+    </aside>
+  </section>
+</section>
