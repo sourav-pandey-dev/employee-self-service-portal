@@ -1,0 +1,7 @@
+﻿.wide-card { max-width: 850px; margin: 20px auto; }
+.grid-form { display: grid; grid-template-columns: repeat(2, minmax(220px, 1fr)); gap: 14px; background: white; border: 1px solid #d9dee8; border-radius: 8px; padding: 22px; }
+label { display: grid; gap: 6px; font-weight: 700; }
+input, select { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; }
+button { width: fit-content; padding: 10px 16px; border: 0; border-radius: 6px; color: white; background: #0b5cab; }
+small { color: #b91c1c; }
+@media (max-width: 720px) { .grid-form { grid-template-columns: 1fr; } }
