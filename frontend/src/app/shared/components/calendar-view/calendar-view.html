@@ -1,1 +1,3 @@
-<p>calendar-view works!</p>
+﻿<div class="calendar">
+  <div *ngFor="let date of dates" class="day">{{ date | date: 'mediumDate' }}</div>
+</div>

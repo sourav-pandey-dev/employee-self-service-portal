@@ -1,0 +1,5 @@
+﻿.simple-form { display: grid; gap: 12px; }
+label { display: grid; gap: 6px; font-weight: 700; }
+input { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; }
+small { color: #b91c1c; }
+button { width: fit-content; padding: 10px 14px; border: 0; border-radius: 6px; background: #0b5cab; color: white; cursor: pointer; }

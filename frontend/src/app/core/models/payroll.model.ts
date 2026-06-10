@@ -1,4 +1,4 @@
-export interface PayrollInput {
+﻿export interface PayrollInput {
   id: number;
   employeeName: string;
   month: string;

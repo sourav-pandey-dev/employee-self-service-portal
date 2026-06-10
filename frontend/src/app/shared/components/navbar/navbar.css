@@ -1,0 +1,142 @@
+.navbar {
+  min-height: 64px;
+  display: grid;
+  grid-template-columns: minmax(190px, 1fr) auto minmax(260px, 1fr);
+  align-items: center;
+  gap: 18px;
+  padding: 10px 28px;
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid #d9dee8;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #111827;
+  font-size: 15px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1769d1, #0f766e);
+  color: #ffffff;
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+a {
+  color: #111827;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.links a {
+  border: 1px solid transparent;
+  border-radius: 7px;
+  padding: 8px 10px;
+  transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.links a:hover {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+.links a.active {
+  background: #dbeafe;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  color: #111827;
+  font-size: 14px;
+}
+
+button {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+  border-radius: 7px;
+  padding: 8px 13px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+button:hover {
+  background: #f8fafc;
+}
+
+.profile-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  background: #ffffff;
+  padding: 4px 10px 4px 4px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+}
+
+.profile-chip img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-name {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 800;
+}
+
+@media (max-width: 980px) {
+  .navbar {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+
+  .links,
+  .user-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 560px) {
+  .navbar {
+    padding: 12px 16px;
+  }
+
+  .user-actions {
+    align-items: flex-start;
+    flex-direction: column-reverse;
+  }
+}

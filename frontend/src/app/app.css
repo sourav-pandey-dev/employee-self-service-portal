@@ -1,0 +1,11 @@
+.page-shell {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 22px 24px 36px;
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    padding: 18px 14px 28px;
+  }
+}

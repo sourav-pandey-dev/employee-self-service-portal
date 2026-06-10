@@ -1,1 +1,1 @@
-<p>leave-balance works!</p>
+﻿<section class="panel"><h1>Leave Balance</h1><div class="cards"><div *ngFor="let balance of leaveService.balances()" class="balance"><h2>{{ balance.type }}</h2><p>Total: {{ balance.total }}</p><p>Used: {{ balance.used }}</p><strong>Remaining: {{ balance.total | daysRemaining: balance.used }}</strong></div></div></section>
