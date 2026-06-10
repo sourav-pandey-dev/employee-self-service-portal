@@ -1,0 +1,2 @@
+﻿.calendar { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+.day { border: 1px solid #d6dae3; border-left: 4px solid #0f766e; padding: 12px; border-radius: 6px; background: white; }

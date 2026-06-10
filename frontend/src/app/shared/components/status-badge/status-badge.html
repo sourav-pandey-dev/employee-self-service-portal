@@ -1,1 +1,1 @@
-<p>status-badge works!</p>
+﻿<span class="badge" [class.pending]="status === 'Pending'" [class.approved]="status === 'Approved' || status === 'Corrected'" [class.rejected]="status === 'Rejected'" [class.correction]="status === 'Correction' || status === 'Correction Pending'">{{ status }}</span>

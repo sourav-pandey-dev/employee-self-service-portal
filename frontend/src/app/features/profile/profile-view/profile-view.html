@@ -1,1 +1,30 @@
-<p>profile-view works!</p>
+<section class="panel profile-panel" *ngIf="auth.currentUser() as user">
+  <header class="profile-header">
+    <img [src]="user.profileImage || '/profile-avatar.svg'" alt="Profile photo" />
+    <div>
+      <p class="eyebrow">Employee Profile</p>
+      <h1>{{ user.name }}</h1>
+      <p>{{ user.designation }} · {{ user.department }}</p>
+    </div>
+  </header>
+
+  <dl>
+    <dt>Name</dt>
+    <dd>{{ user.name }}</dd>
+    <dt>Email</dt>
+    <dd>{{ user.email }}</dd>
+    <dt>Role</dt>
+    <dd>{{ user.role === 'Customer' ? 'Employee' : 'Admin' }}</dd>
+    <dt>Department</dt>
+    <dd>{{ user.department }}</dd>
+    <dt>Designation</dt>
+    <dd>{{ user.designation }}</dd>
+    <dt>Join Date</dt>
+    <dd>{{ user.joinDate }}</dd>
+  </dl>
+
+  <div class="profile-actions">
+    <a routerLink="/profile/edit">Edit Profile</a>
+    <a routerLink="/profile/preferences">Notification Preferences</a>
+  </div>
+</section>
