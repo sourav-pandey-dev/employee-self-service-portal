@@ -40,17 +40,17 @@
             <td>{{ leave.type }}</td>
             <td>{{ leave.fromDate }} to {{ leave.toDate }}</td>
             <td>
-              <span class="status-pill" [class.approved]="leave.status === 'Approved'" [class.pending]="leave.status === 'Pending'">
+              <span class="status-pill" [class.approved]="leave.status === 'Approved'" [class.pending]="leave.status === 'Pending'" [class.rejected]="leave.status === 'Rejected'" [class.correction]="leave.status === 'Correction'">
                 {{ leave.status }}
               </span>
             </td>
             <td>
               <div class="table-actions">
-                <a routerLink="/leave/calendar" aria-label="View leave request">View</a>
-                <a *ngIf="leave.status === 'Pending'; else modifyAction" routerLink="/leave/apply" aria-label="Cancel leave request">Cancel</a>
-                <ng-template #modifyAction>
-                  <a routerLink="/leave/apply" aria-label="Modify leave request">Modify</a>
-                </ng-template>
+                <button type="button" class="btn-action view" (click)="viewLeave(leave)" aria-label="View leave request">View</button>
+                <ng-container *ngIf="leave.status === 'Pending' || leave.status === 'Correction'">
+                  <a [routerLink]="['/leave/apply']" [queryParams]="{ id: leave.id }" class="btn-action modify" aria-label="Modify leave request">Modify</a>
+                  <button type="button" class="btn-action cancel danger" (click)="cancelLeave(leave.id)" aria-label="Cancel leave request">Cancel</button>
+                </ng-container>
               </div>
             </td>
           </tr>
@@ -110,3 +110,50 @@
     </aside>
   </section>
 </section>
+
+<!-- Leave View Modal -->
+<div class="modal-overlay" *ngIf="selectedLeave" (click)="closeLeaveModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Leave Request Details</h3>
+      <button class="close-btn" (click)="closeLeaveModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-row">
+        <span class="label">Leave Type:</span>
+        <span class="value">{{ selectedLeave.type }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Start Date:</span>
+        <span class="value">{{ selectedLeave.fromDate | date:'mediumDate' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">End Date:</span>
+        <span class="value">{{ selectedLeave.toDate | date:'mediumDate' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Duration:</span>
+        <span class="value">{{ selectedLeave.days }} {{ selectedLeave.days === 1 ? 'day' : 'days' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Status:</span>
+        <span class="value">
+          <span class="status-pill" [class.approved]="selectedLeave.status === 'Approved'" [class.pending]="selectedLeave.status === 'Pending'" [class.rejected]="selectedLeave.status === 'Rejected'" [class.correction]="selectedLeave.status === 'Correction'">
+            {{ selectedLeave.status }}
+          </span>
+        </span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Reason:</span>
+        <span class="value">{{ selectedLeave.reason || 'N/A' }}</span>
+      </div>
+      <div class="detail-row" *ngIf="selectedLeave.adminRemark">
+        <span class="label">Admin Remark:</span>
+        <span class="value">{{ selectedLeave.adminRemark }}</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button (click)="closeLeaveModal()">Close</button>
+    </div>
+  </div>
+</div>

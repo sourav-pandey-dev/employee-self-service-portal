@@ -1,4 +1,4 @@
-﻿<section class="panel">
+<section class="panel">
     <h1>Attendance Regularization</h1>
     <table>
         <tr>
@@ -12,7 +12,7 @@
             <td>{{ item.employeeName }}</td>
             <td>{{ item.date }}</td>
             <td>{{ item.remark }}</td>
-            <td>{{ item.status }}</td>
+            <td><app-status-badge [status]="item.status"></app-status-badge></td>
             <td><button (click)="attendance.updateCorrection(item.id, 'Approved')">Approve</button><button
                     class="danger" (click)="attendance.updateCorrection(item.id, 'Rejected')">Reject</button></td>
         </tr>

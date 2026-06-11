@@ -1,9 +1,14 @@
-﻿.auth-card { max-width: 440px; margin: 40px auto; }
+.auth-card { max-width: 440px; margin: 40px auto; }
 h1 { margin-bottom: 6px; }
+h2 { margin: 0; font-size: 1.2rem; }
 p { color: #64748b; }
 .form-card { display: grid; gap: 14px; background: white; border: 1px solid #d9dee8; border-radius: 8px; padding: 22px; }
+.login-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0; }
+.login-options button { background: #eef2f7; color: #1f2937; border: 1px solid #cbd5e1; }
+.login-options button.active { background: #0b5cab; color: white; border-color: #0b5cab; }
 label { display: grid; gap: 6px; font-weight: 700; }
 input { padding: 11px; border: 1px solid #cbd5e1; border-radius: 6px; }
 button { padding: 11px; border: 0; border-radius: 6px; color: white; background: #0b5cab; cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: 0.7; }
 small { color: #b91c1c; }
 a { color: #0b5cab; }
