@@ -1,1 +1,15 @@
-<p>mark-attendence works!</p>
+<section class="panel attendance-card">
+  <div>
+    <p class="eyebrow">Today</p>
+    <h1>Attendance</h1>
+    <p>Mark today attendance and view or request correction when needed.</p>
+  </div>
+
+  <div class="actions">
+    <button type="button" [disabled]="isMarked" [class.marked]="isMarked" (click)="mark()">
+      {{ isMarked ? 'Marked' : 'Mark' }}
+    </button>
+    <a routerLink="/attendance/history">Attendance History</a>
+    <a routerLink="/attendance/correction">Request Correction</a>
+  </div>
+</section>

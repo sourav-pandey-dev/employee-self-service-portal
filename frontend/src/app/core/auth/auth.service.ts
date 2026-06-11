@@ -1,35 +1,52 @@
-﻿import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable, map, of, switchMap, timeout } from 'rxjs';
 import { User } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private usersKey = 'portal_users';
+  private apiUrl = 'http://127.0.0.1:3001/users';
   private sessionKey = 'portal_current_user';
   currentUser = signal<User | null>(this.loadCurrentUser());
 
-  constructor(private router: Router) {
-    this.seedUsers();
+  constructor(private router: Router, private http: HttpClient) {}
+
+  register(user: Omit<User, 'id' | 'role'>): Observable<boolean> {
+    const email = user.email.trim().toLowerCase();
+
+    return this.findUserByEmail(email).pipe(
+      switchMap(existing => {
+        if (existing) {
+          return of(false);
+        }
+
+        const newUser: Omit<User, 'id'> = {
+          ...user,
+          email,
+          role: 'Customer'
+        };
+
+        return this.http.post<User>(this.apiUrl, newUser).pipe(
+          timeout(5000),
+          map(() => true)
+        );
+      })
+    );
   }
 
-  register(user: Omit<User, 'id'>): boolean {
-    const users = this.getUsers();
-    if (users.some(item => item.email === user.email)) {
-      return false;
-    }
-    users.push({ ...user, id: Date.now() });
-    localStorage.setItem(this.usersKey, JSON.stringify(users));
-    return true;
-  }
+  login(email: string, password: string): Observable<boolean> {
+    return this.findUserByEmail(email.trim().toLowerCase()).pipe(
+      map(user => {
+        if (!user || user.password !== password) {
+          return false;
+        }
 
-  login(email: string, password: string): boolean {
-    const user = this.getUsers().find(item => item.email === email && item.password === password);
-    if (!user) {
-      return false;
-    }
-    localStorage.setItem(this.sessionKey, JSON.stringify(user));
-    this.currentUser.set(user);
-    return true;
+        localStorage.setItem(this.sessionKey, JSON.stringify(user));
+        this.currentUser.set(user);
+        return true;
+      })
+    );
   }
 
   logout(): void {
@@ -42,16 +59,14 @@ export class AuthService {
     return this.currentUser() !== null;
   }
 
-  getUsers(): User[] {
-    const value = localStorage.getItem(this.usersKey);
-    return value ? JSON.parse(value) as User[] : [];
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl).pipe(timeout(5000));
   }
 
   updateProfile(updated: User): void {
-    const users = this.getUsers().map(user => user.id === updated.id ? updated : user);
-    localStorage.setItem(this.usersKey, JSON.stringify(users));
     localStorage.setItem(this.sessionKey, JSON.stringify(updated));
     this.currentUser.set(updated);
+    this.http.put<User>(`${this.apiUrl}/${updated.id}`, updated).pipe(timeout(5000)).subscribe();
   }
 
   private loadCurrentUser(): User | null {
@@ -59,14 +74,10 @@ export class AuthService {
     return value ? JSON.parse(value) as User : null;
   }
 
-  private seedUsers(): void {
-    if (localStorage.getItem(this.usersKey)) {
-      return;
-    }
-    const users: User[] = [
-      { id: 1, name: 'Asha Employee', email: 'employee@test.com', password: '123456', role: 'Customer', department: 'IT', designation: 'Developer', phone: '9876543210', joinDate: '2024-04-01' },
-      { id: 2, name: 'Ravi Admin', email: 'admin@test.com', password: '123456', role: 'Admin', department: 'HR', designation: 'HR Manager', phone: '9876500000', joinDate: '2023-01-10' }
-    ];
-    localStorage.setItem(this.usersKey, JSON.stringify(users));
+  private findUserByEmail(email: string): Observable<User | undefined> {
+    return this.http.get<User[]>(`${this.apiUrl}?email=${encodeURIComponent(email)}`).pipe(
+      timeout(5000),
+      map(users => users[0])
+    );
   }
 }

@@ -1,1 +1,20 @@
-<p>admin-regularization works!</p>
+<section class="panel">
+    <h1>Attendance Regularization</h1>
+    <table>
+        <tr>
+            <th>Employee</th>
+            <th>Date</th>
+            <th>Remark</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        <tr *ngFor="let item of attendance.corrections()">
+            <td>{{ item.employeeName }}</td>
+            <td>{{ item.date }}</td>
+            <td>{{ item.remark }}</td>
+            <td><app-status-badge [status]="item.status"></app-status-badge></td>
+            <td><button (click)="attendance.updateCorrection(item.id, 'Approved')">Approve</button><button
+                    class="danger" (click)="attendance.updateCorrection(item.id, 'Rejected')">Reject</button></td>
+        </tr>
+    </table>
+</section>

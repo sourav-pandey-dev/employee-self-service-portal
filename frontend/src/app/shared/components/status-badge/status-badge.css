@@ -1,0 +1,5 @@
+﻿.badge { display: inline-block; padding: 4px 10px; border-radius: 6px; background: #e5e7eb; font-size: 12px; font-weight: 700; }
+.pending { background: #fef3c7; color: #92400e; }
+.approved { background: #dcfce7; color: #166534; }
+.rejected { background: #fee2e2; color: #991b1b; }
+.correction { background: #dbeafe; color: #1e40af; }

@@ -1,1 +1,1 @@
-<p>payslip-list works!</p>
+﻿<section class="panel"><h1>Payslips</h1><table><tr><th>Month</th><th>Employee</th><th>Net Pay</th><th>Action</th></tr><tr *ngFor="let payslip of payroll.payslips()"><td>{{ payslip.month }}</td><td>{{ payslip.employeeName }}</td><td>{{ payslip.netPay | currencyFormat }}</td><td><a [routerLink]="['/payslip', payslip.id]">View</a></td></tr></table></section>

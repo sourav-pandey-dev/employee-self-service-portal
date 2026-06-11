@@ -1,59 +1,93 @@
-# EmployeeSelfServicePortal
+﻿# Employee Leave, Attendance, and Payroll Self-Service Portal
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.11.
+Simple Angular 21 + TypeScript project for an employee self-service portal.
 
-## Development server
+## Demo Login
 
-To start a local development server, run:
+- Employee: `employee@test.com` / `123456`
+- Admin: `admin@test.com` / `123456`
 
-```bash
-ng serve
-```
+## Main Features
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Login, logout, registration, role-based routing
+- Employee profile and template-driven notification preferences
+- Leave application, balance, calendar, and admin approval workflow
+- NgRx is used only for the Leave Request and Approval Workflow
+- Attendance marking, history, correction request, and admin regularization
+- Payroll input dynamic form, payroll preview, payslip listing, and print view
+- Notifications using Angular signals
+- Custom validators for leave dates, leave balance, attendance remark, and payroll rules
+- Custom pipes and directives
+- HttpClient is configured with simple interceptors
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Run Project
 
 ```bash
-ng build
+npm install
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Open `http://127.0.0.1:4200` or `http://localhost:4200`.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Build
 
 ```bash
-ng test
+npm run build
 ```
 
-## Running end-to-end tests
+## Component Diagram
 
-For end-to-end (e2e) testing, run:
+```mermaid
+flowchart TD
+  App[App Component] --> Router[Angular Router]
+  App --> Navbar[Navbar]
+  Router --> Auth[Auth Components]
+  Router --> Dashboard[Dashboard Components]
+  Router --> Profile[Profile Components]
+  Router --> Leave[Leave Components]
+  Router --> Attendance[Attendance Components]
+  Router --> Payroll[Payroll Components]
+  Router --> Notifications[Notification Components]
 
-```bash
-ng e2e
+  Auth --> AuthService[Auth Service]
+  Profile --> AuthService
+  Notifications --> NotificationService[Notification Service with Signals]
+  Attendance --> AttendanceService[Attendance Service with Signals]
+  Payroll --> PayrollService[Payroll Service]
+
+  Leave --> Store[NgRx Store]
+  Store --> Actions[Leave Actions]
+  Store --> Reducer[Leave Reducer]
+  Store --> Selectors[Leave Selectors]
+  Store --> Effects[Leave Effects]
+  Effects --> LeaveService[Leave Service]
+
+  Shared[Shared Components, Pipes, Directives, Validators] --> Leave
+  Shared --> Attendance
+  Shared --> Payroll
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Use Case Diagram
 
-## Additional Resources
+```mermaid
+flowchart LR
+  Employee[Customer / Employee]
+  Admin[Admin]
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+  Employee --> Login[Login and Logout]
+  Employee --> Profile[Manage Profile]
+  Employee --> Preferences[Set Notification Preferences]
+  Employee --> ApplyLeave[Apply for Leave]
+  Employee --> LeaveBalance[View Leave Balance]
+  Employee --> MarkAttendance[Mark Attendance]
+  Employee --> Correction[Request Attendance Correction]
+  Employee --> Payslip[View and Print Payslip]
+  Employee --> Alerts[View Notifications]
+
+  Admin --> Login
+  Admin --> LeaveApproval[Approve, Reject, or Return Leave]
+  Admin --> AttendanceApproval[Approve Attendance Correction]
+  Admin --> PayrollInput[Maintain Payroll Inputs]
+  Admin --> PayrollPreview[Preview Payroll]
+  Admin --> AdminAlerts[View Pending Alerts]
+```
