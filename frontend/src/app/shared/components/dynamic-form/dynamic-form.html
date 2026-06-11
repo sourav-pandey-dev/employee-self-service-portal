@@ -1,0 +1,8 @@
+﻿<form [formGroup]="form" (ngSubmit)="submit()" class="simple-form">
+  <label *ngFor="let field of fields">
+    {{ field.label }}
+    <input [type]="field.type" [formControlName]="field.name">
+    <small *ngIf="form.get(field.name)?.touched && form.get(field.name)?.invalid">Required</small>
+  </label>
+  <button type="submit">Save Payroll Input</button>
+</form>

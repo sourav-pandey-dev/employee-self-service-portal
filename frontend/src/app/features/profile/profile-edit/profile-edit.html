@@ -1,0 +1,25 @@
+<section class="panel">
+  <h1>Edit Profile</h1>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="form-card">
+    <div class="photo-field">
+      <img [src]="previewImage || '/profile-avatar.svg'" alt="Profile preview" />
+      <label class="upload-control">
+        Profile Image
+        <input type="file" accept="image/*" (change)="onImageSelected($event)">
+        <span>Choose image</span>
+      </label>
+      <p class="image-message" *ngIf="imageMessage">{{ imageMessage }}</p>
+    </div>
+
+    <label>Name <input formControlName="name"></label>
+    <label>Phone <input formControlName="phone"></label>
+    <label>Department <input formControlName="department"></label>
+    <label>Designation <input formControlName="designation"></label>
+
+    <div class="actions">
+      <button type="submit">Save</button>
+      <button type="button" class="secondary" (click)="removeImage()" *ngIf="previewImage">Remove Image</button>
+    </div>
+  </form>
+</section>

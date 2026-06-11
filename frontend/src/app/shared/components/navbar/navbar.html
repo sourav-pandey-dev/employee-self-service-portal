@@ -1,0 +1,23 @@
+<nav class="navbar" *ngIf="auth.currentUser() as user">
+  <a routerLink="/dashboard" class="brand">
+    <span class="brand-mark">EP</span>
+    <span>Employee Portal</span>
+  </a>
+
+  <div class="links">
+    <a routerLink="/profile" routerLinkActive="active">Profile</a>
+    <a routerLink="/leave/apply" routerLinkActive="active">Leave</a>
+    <a routerLink="/attendance" routerLinkActive="active">Attendance</a>
+    <a routerLink="/payroll" routerLinkActive="active">Payroll</a>
+    <a routerLink="/notifications" routerLinkActive="active">Notifications</a>
+    <a *appRoleBasedAccess="['Admin']" routerLink="/admin/approvals" routerLinkActive="active">Admin</a>
+  </div>
+
+  <div class="user-actions">
+    <button type="button" (click)="auth.logout()">Logout</button>
+    <div class="profile-chip" routerLink="/profile">
+      <img [src]="user.profileImage || '/profile-avatar.svg'" alt="Profile photo" />
+      <span class="user-name">{{ user.name }}</span>
+    </div>
+  </div>
+</nav>

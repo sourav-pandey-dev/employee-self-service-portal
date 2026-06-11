@@ -1,0 +1,11 @@
+﻿<section class="auth-card">
+  <h1>Employee Portal Login</h1>
+  <p>Use employee@test.com or admin@test.com with password 123456.</p>
+  <form [formGroup]="form" (ngSubmit)="login()" class="form-card">
+    <label>Email <input type="email" formControlName="email"></label>
+    <label>Password <input type="password" formControlName="password"></label>
+    <small *ngIf="error">{{ error }}</small>
+    <button type="submit">Login</button>
+    <a routerLink="/register">Create account</a>
+  </form>
+</section>

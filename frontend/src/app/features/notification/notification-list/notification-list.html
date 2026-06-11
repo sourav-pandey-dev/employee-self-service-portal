@@ -1,0 +1,19 @@
+<section class="panel">
+  <div class="heading">
+    <div>
+      <h1>Notifications</h1>
+      <p>{{ unreadCount() }} unread updates</p>
+    </div>
+    <button type="button" (click)="notes.markAllRead()" [disabled]="unreadCount() === 0">Mark All Read</button>
+  </div>
+
+  <article *ngFor="let note of notes.notifications()" [class.unread]="!note.read">
+    <div class="note-main">
+      <strong>{{ note.type }}</strong>
+      <p>{{ note.message }}</p>
+      <small>{{ note.createdAt | date: 'short' }}</small>
+    </div>
+    <button type="button" *ngIf="!note.read" (click)="notes.markRead(note.id)">Mark as Read</button>
+    <span *ngIf="note.read" class="read-label">Read</span>
+  </article>
+</section>
