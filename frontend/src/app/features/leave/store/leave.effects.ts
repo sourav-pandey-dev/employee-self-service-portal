@@ -2,7 +2,7 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, switchMap } from 'rxjs/operators';
 import { LeaveService } from '../leave.service';
-import { applyLeave, applyLeaveSuccess, changeLeaveStatus, changeLeaveStatusSuccess, loadLeaves, loadLeavesSuccess } from './leave.action';
+import { applyLeave, applyLeaveSuccess, changeLeaveStatus, changeLeaveStatusSuccess, loadLeaves, loadLeavesSuccess, updateLeave, updateLeaveSuccess } from './leave.action';
 
 @Injectable()
 export class LeaveEffects {
@@ -22,5 +22,10 @@ export class LeaveEffects {
   changeStatus$ = createEffect(() => this.actions$.pipe(
     ofType(changeLeaveStatus),
     switchMap(({ id, status, remark }) => this.leaveService.updateStatus(id, status, remark).pipe(map(leave => changeLeaveStatusSuccess({ leave }))))
+  ));
+
+  updateLeave$ = createEffect(() => this.actions$.pipe(
+    ofType(updateLeave),
+    switchMap(({ leave }) => this.leaveService.updateRequest(leave).pipe(map(saved => updateLeaveSuccess({ leave: saved }))))
   ));
 }

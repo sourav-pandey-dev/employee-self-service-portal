@@ -1,6 +1,6 @@
 ﻿import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { User } from '../models/user.model';
 import { AuthService } from '../auth/auth.service';
@@ -12,7 +12,7 @@ export class UserService {
   getEmployees(): Observable<User[]> {
     return this.http.get<{ users: User[] }>('/assets/users.json').pipe(
       map(response => response.users),
-      catchError(() => of(this.auth.getUsers()))
+      catchError(() => this.auth.getUsers())
     );
   }
 }
