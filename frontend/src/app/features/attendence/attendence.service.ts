@@ -1,8 +1,10 @@
-﻿import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { AttendanceCorrection, AttendanceRecord } from '../../core/models/attendence.model';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Injectable({ providedIn: 'root' })
 export class AttendenceService {
+  private notes = inject(NotificationService);
   private today = this.currentDateKey();
   records = signal<AttendanceRecord[]>([
     { id: 1, employeeId: 1, date: this.today, checkIn: '09:30', checkOut: '18:00', status: 'Present' },
@@ -20,7 +22,21 @@ export class AttendenceService {
     return hasToday ? 'existing' : 'created';
   }
   requestCorrection(item: AttendanceCorrection): void { this.corrections.update(items => [item, ...items]); }
-  updateCorrection(id: number, status: 'Approved' | 'Rejected'): void { this.corrections.update(items => items.map(item => item.id === id ? { ...item, status } : item)); }
+  updateCorrection(id: number, status: 'Approved' | 'Rejected'): void {
+    const existing = this.corrections().find(item => item.id === id);
+    if (!existing) return;
+    this.corrections.update(items => items.map(item => item.id === id ? { ...item, status } : item));
+    // also update corresponding record status in records() if approved
+    if (status === 'Approved') {
+      const rec = this.records().find(r => r.employeeId === existing.employeeId && r.date === existing.date);
+      if (rec) {
+        this.records.update(items => items.map(item => item.id === rec.id ? { ...item, status: existing.requestedStatus } : item));
+      } else {
+        this.records.update(items => [{ id: Date.now(), employeeId: existing.employeeId, date: existing.date, checkIn: '09:30', checkOut: '18:00', status: existing.requestedStatus }, ...items]);
+      }
+    }
+    this.notes.add(`Attendance correction for ${existing.date} has been ${status.toLowerCase()}.`, 'Attendance', existing.employeeId);
+  }
 
   private currentDateKey(): string {
     return this.formatDateKey(new Date());

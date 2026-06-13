@@ -1,22 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { AdminEmployees } from './admin-employees';
 
-import { PayslipDetail } from './payslip-detail';
-
-describe('PayslipDetail', () => {
-  let component: PayslipDetail;
-  let fixture: ComponentFixture<PayslipDetail>;
+describe('AdminEmployees', () => {
+  let component: AdminEmployees;
+  let fixture: ComponentFixture<AdminEmployees>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PayslipDetail],
+      imports: [AdminEmployees],
       providers: [
         provideRouter([])
       ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PayslipDetail);
+    fixture = TestBed.createComponent(AdminEmployees);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

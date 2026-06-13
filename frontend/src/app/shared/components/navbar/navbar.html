@@ -1,23 +1,41 @@
 <nav class="navbar" *ngIf="auth.currentUser() as user">
-  <a routerLink="/dashboard" class="brand">
+  <a [routerLink]="user.role === 'Admin' ? '/admin/dashboard' : '/dashboard'" class="brand">
     <span class="brand-mark">EP</span>
     <span>Employee Portal</span>
   </a>
 
   <div class="links">
-    <a routerLink="/profile" routerLinkActive="active">Profile</a>
-    <a routerLink="/leave/apply" routerLinkActive="active">Leave</a>
-    <a routerLink="/attendance" routerLinkActive="active">Attendance</a>
-    <a routerLink="/payroll" routerLinkActive="active">Payroll</a>
-    <a routerLink="/notifications" routerLinkActive="active">Notifications</a>
-    <a *appRoleBasedAccess="['Admin']" routerLink="/admin/approvals" routerLinkActive="active">Admin</a>
+    <!-- Employee Links -->
+    <ng-container *ngIf="user.role === 'Employee'">
+      <a routerLink="/profile" routerLinkActive="active">Profile</a>
+      <a routerLink="/leave/apply" routerLinkActive="active">Leave</a>
+      <a routerLink="/attendance" routerLinkActive="active">Attendance</a>
+      <a routerLink="/payroll" routerLinkActive="active">Payroll</a>
+      <a routerLink="/notifications" routerLinkActive="active">Notifications</a>
+    </ng-container>
+
+    <!-- Admin Links -->
+    <ng-container *ngIf="user.role === 'Admin'">
+      <a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/admin/approvals" routerLinkActive="active">Leave Approvals</a>
+      <a routerLink="/admin/attendance" routerLinkActive="active">Attendance Corrections</a>
+      <a routerLink="/admin/profile-approvals" routerLinkActive="active">Profile Approvals</a>
+      <a routerLink="/admin/employees" routerLinkActive="active">Employees</a>
+    </ng-container>
   </div>
 
   <div class="user-actions">
     <button type="button" (click)="auth.logout()">Logout</button>
-    <div class="profile-chip" routerLink="/profile">
+    
+    <!-- Profile Chip only for Employee -->
+    <div *ngIf="user.role === 'Employee'" class="profile-chip" routerLink="/profile">
       <img [src]="user.profileImage || '/profile-avatar.svg'" alt="Profile photo" />
       <span class="user-name">{{ user.name }}</span>
+    </div>
+    
+    <!-- Admin Info Badge -->
+    <div *ngIf="user.role === 'Admin'" class="admin-badge" style="display: flex; align-items: center; padding: 4px 12px; background: #fee2e2; color: #991b1b; border-radius: 9999px; font-size: 13px; font-weight: 600; font-family: inherit;">
+      Admin: {{ user.name }}
     </div>
   </div>
 </nav>

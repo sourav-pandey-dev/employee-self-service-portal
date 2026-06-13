@@ -7,7 +7,7 @@
     <button type="button" (click)="notes.markAllRead()" [disabled]="unreadCount() === 0">Mark All Read</button>
   </div>
 
-  <article *ngFor="let note of notes.notifications()" [class.unread]="!note.read">
+  <article *ngFor="let note of notes.userNotifications()" [class.unread]="!note.read">
     <div class="note-main">
       <strong>{{ note.type }}</strong>
       <p>{{ note.message }}</p>

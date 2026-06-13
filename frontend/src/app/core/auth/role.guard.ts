@@ -1,4 +1,4 @@
-﻿import { inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { UserRole } from '../models/user.model';
@@ -11,6 +11,7 @@ export const roleGuard: CanActivateFn = route => {
   if (user && (!roles || roles.includes(user.role))) {
     return true;
   }
-  router.navigate(['/dashboard']);
+  const redirectRoute = user?.role === 'Admin' ? '/admin/dashboard' : '/dashboard';
+  router.navigate([redirectRoute]);
   return false;
 };

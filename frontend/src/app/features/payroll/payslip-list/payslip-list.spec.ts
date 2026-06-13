@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { PayslipList } from './payslip-list';
 
@@ -8,7 +9,10 @@ describe('PayslipList', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PayslipList]
+      imports: [PayslipList],
+      providers: [
+        provideRouter([])
+      ]
     })
     .compileComponents();
 

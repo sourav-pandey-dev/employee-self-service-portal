@@ -1,1 +1,135 @@
-﻿<section class="panel" *ngIf="payslip as p"><h1>Payslip - {{ p.month }}</h1><p>{{ p.employeeName }} | Generated on {{ p.generatedOn }}</p><table><tr><td>Basic</td><td>{{ p.basic | currencyFormat }}</td></tr><tr><td>Allowance</td><td>{{ p.allowance | currencyFormat }}</td></tr><tr><td>Adjustment</td><td>{{ p.adjustment | currencyFormat }}</td></tr><tr><td>Deduction</td><td>- {{ p.deduction | currencyFormat }}</td></tr><tr class="total"><td>Net Pay</td><td>{{ p.netPay | currencyFormat }}</td></tr></table><button (click)="print()">Print Payslip</button></section>
+<section class="panel" *ngIf="accessDenied">
+  <div class="error-container" style="text-align: center; padding: 40px 20px;">
+    <h2 style="color: #dc2626; margin-bottom: 12px;">Access Denied</h2>
+    <p style="color: #4b5563;">You do not have permission to view this payslip. If you believe this is an error, please contact your administrator.</p>
+    <a routerLink="/payroll" class="btn-link" style="margin-top: 20px; display: inline-block; color: #0b5cab; font-weight: 700; text-decoration: none;">&larr; Back to Payslips</a>
+  </div>
+</section>
+
+<section class="panel" *ngIf="!payslip && !accessDenied">
+  <div class="error-container" style="text-align: center; padding: 40px 20px;">
+    <h2 style="color: #6b7280; margin-bottom: 12px;">Payslip Not Found</h2>
+    <p style="color: #4b5563;">The requested payslip could not be found or does not exist.</p>
+    <a routerLink="/payroll" class="btn-link" style="margin-top: 20px; display: inline-block; color: #0b5cab; font-weight: 700; text-decoration: none;">&larr; Back to Payslips</a>
+  </div>
+</section>
+
+<section class="panel payslip-container" *ngIf="payslip as p">
+  <div class="payslip-header">
+    <div class="company-details">
+      <h2 class="company-logo">ESS Portal</h2>
+      <p class="company-sub text-muted">Corporate Headquarters</p>
+      <p class="company-sub text-muted">HR & Payroll Department</p>
+    </div>
+    <div class="payslip-title-block">
+      <h1>PAYSLIP</h1>
+      <div class="payslip-meta">
+        <div><strong>Pay Period:</strong> {{ p.month }}</div>
+        <div><strong>Statement Date:</strong> {{ p.generatedOn }}</div>
+        <div><strong>Slip ID:</strong> #PAY-{{ p.id }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="employee-summary">
+    <div class="summary-item">
+      <span class="label">Employee Name:</span>
+      <span class="value"><strong>{{ p.employeeName }}</strong></span>
+    </div>
+    <div class="summary-item">
+      <span class="label">Employee ID:</span>
+      <span class="value">#{{ p.employeeId }}</span>
+    </div>
+  </div>
+
+  <div class="payslip-tables">
+    <div class="payslip-column">
+      <h3>Earnings</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th class="amount-col">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Basic Salary</td>
+            <td class="amount-col">{{ p.basic | currencyFormat }}</td>
+          </tr>
+          <tr>
+            <td>House Rent Allowance (HRA)</td>
+            <td class="amount-col">{{ p.hra | currencyFormat }}</td>
+          </tr>
+          <tr>
+            <td>Conveyance Allowance</td>
+            <td class="amount-col">{{ p.conveyance | currencyFormat }}</td>
+          </tr>
+          <tr>
+            <td>Special Allowance</td>
+            <td class="amount-col">{{ p.specialAllowance | currencyFormat }}</td>
+          </tr>
+          <tr *ngIf="p.adjustment > 0">
+            <td>Bonus / Adjustment</td>
+            <td class="amount-col">{{ p.adjustment | currencyFormat }}</td>
+          </tr>
+          <tr class="subtotal-row">
+            <td><strong>Gross Earnings</strong></td>
+            <td class="amount-col"><strong>{{ p.grossEarnings | currencyFormat }}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="payslip-column">
+      <h3>Deductions</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th class="amount-col">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Provident Fund (PF)</td>
+            <td class="amount-col">{{ p.pf | currencyFormat }}</td>
+          </tr>
+          <tr>
+            <td>Tax Deducted at Source (TDS)</td>
+            <td class="amount-col">{{ p.tds | currencyFormat }}</td>
+          </tr>
+          <tr>
+            <td>Professional Tax (PT)</td>
+            <td class="amount-col">{{ p.professionalTax | currencyFormat }}</td>
+          </tr>
+          <tr>
+            <td>Health Insurance</td>
+            <td class="amount-col">{{ p.insurance | currencyFormat }}</td>
+          </tr>
+          <tr *ngIf="p.adjustment < 0">
+            <td>Deduction / LOP Adjustment</td>
+            <td class="amount-col">{{ -p.adjustment | currencyFormat }}</td>
+          </tr>
+          <tr class="subtotal-row">
+            <td><strong>Total Deductions</strong></td>
+            <td class="amount-col"><strong>{{ p.totalDeductions | currencyFormat }}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="payslip-footer">
+    <div class="net-pay-card">
+      <div class="net-pay-label">NET PAYABLE</div>
+      <div class="net-pay-amount">{{ p.netPay | currencyFormat }}</div>
+      <div class="net-pay-words text-muted">Net salary credited to registered bank account</div>
+    </div>
+
+    <div class="actions no-print">
+      <button (click)="print()" class="btn-primary">Print / Save as PDF</button>
+      <a routerLink="/payroll" class="btn-secondary">Back to Payslips</a>
+    </div>
+  </div>
+</section>

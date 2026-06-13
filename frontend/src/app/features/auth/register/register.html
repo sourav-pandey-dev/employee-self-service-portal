@@ -1,10 +1,10 @@
-﻿<section class="wide-card">
+<section class="wide-card">
   <h1>Employee Onboarding</h1>
   <form [formGroup]="form" (ngSubmit)="register()" class="grid-form">
     <label>Name <input formControlName="name"></label>
     <label>Email <input type="email" formControlName="email"></label>
     <label>Password <input type="password" formControlName="password"></label>
-    <label>Role <select formControlName="role"><option>Customer</option><option>Admin</option></select></label>
+    <label>Role <select formControlName="role"><option>Employee</option><option>Admin</option></select></label>
     <label>Department <input formControlName="department"></label>
     <label>Designation <input formControlName="designation"></label>
     <label>Phone <input appInputMask formControlName="phone"></label>

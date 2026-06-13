@@ -2,123 +2,339 @@
   "users": [
     {
       "id": 1,
-      "username": "admin",
-      "password": "admin123",
-      "role": "Admin",
-      "name": "Admin User",
-      "email": "admin@company.com",
-      "department": "HR"
+      "name": "Asha Employee",
+      "email": "employee@test.com",
+      "password": "123456",
+      "role": "Employee",
+      "department": "IT",
+      "designation": "Senior Developer",
+      "phone": "9876543210",
+      "joinDate": "2024-04-01"
     },
     {
       "id": 2,
-      "username": "sourav",
-      "password": "user123",
-      "role": "Customer",
-      "name": "Sourav Pandey",
-      "email": "sourav@company.com",
-      "department": "AI & ML"
+      "name": "Admin User",
+      "email": "admin@test.com",
+      "password": "123456",
+      "role": "Admin",
+      "department": "HR",
+      "designation": "HR Manager",
+      "phone": "9876500000",
+      "joinDate": "2023-01-10"
     },
     {
       "id": 3,
-      "username": "rakesh",
-      "password": "user123",
-      "role": "Customer",
+      "name": "Sourav Pandey",
+      "email": "sourav@test.com",
+      "password": "123456",
+      "role": "Employee",
+      "department": "AI & ML",
+      "designation": "Data Scientist",
+      "phone": "9876543211",
+      "joinDate": "2024-05-15"
+    },
+    {
+      "id": 4,
       "name": "Rakesh Mundel",
-      "email": "rakesh@company.com",
-      "department": "Development"
-    }
-  ],
-
-  "leaveRequests": [
-    {
-      "id": 1,
-      "employeeId": 2,
-      "leaveType": "Casual Leave",
-      "startDate": "2026-06-20",
-      "endDate": "2026-06-22",
-      "reason": "Family Function",
-      "status": "Pending"
+      "email": "rakesh@test.com",
+      "password": "123456",
+      "role": "Employee",
+      "department": "Product",
+      "designation": "Frontend Engineer",
+      "phone": "9876543212",
+      "joinDate": "2024-06-01"
     },
     {
-      "id": 2,
-      "employeeId": 3,
-      "leaveType": "Sick Leave",
-      "startDate": "2026-06-15",
-      "endDate": "2026-06-16",
-      "reason": "Fever",
-      "status": "Approved"
-    }
-  ],
-
-  "attendance": [
-    {
-      "id": 1,
-      "employeeId": 2,
-      "date": "2026-06-10",
-      "checkIn": "09:05",
-      "checkOut": "18:00",
-      "status": "Present"
+      "id": 5,
+      "name": "Luv",
+      "email": "luv@test.com",
+      "password": "123456",
+      "role": "Employee",
+      "department": "Development",
+      "designation": "Software Engineer",
+      "phone": "9876543217",
+      "joinDate": "2024-07-01"
     },
     {
-      "id": 2,
-      "employeeId": 3,
-      "date": "2026-06-10",
-      "checkIn": "09:45",
-      "checkOut": "18:10",
-      "status": "Late"
+      "id": 6,
+      "name": "Sankalp",
+      "email": "sankalp@test.com",
+      "password": "123456",
+      "role": "Employee",
+      "department": "QA",
+      "designation": "QA Lead",
+      "phone": "9876543218",
+      "joinDate": "2024-08-10"
+    },
+    {
+      "id": 7,
+      "name": "Mansi",
+      "email": "mansi@test.com",
+      "password": "123456",
+      "role": "Employee",
+      "department": "Design",
+      "designation": "UI/UX Designer",
+      "phone": "9876543219",
+      "joinDate": "2024-09-01"
+    },
+    {
+      "id": 8,
+      "name": "John Doe",
+      "email": "john@test.com",
+      "password": "123456",
+      "role": "Employee",
+      "department": "HR",
+      "designation": "Recruiter",
+      "phone": "9876543213",
+      "joinDate": "2025-01-15"
+    },
+    {
+      "id": 9,
+      "name": "Jane Smith",
+      "email": "jane@test.com",
+      "password": "123456",
+      "role": "Employee",
+      "department": "Marketing",
+      "designation": "SEO Specialist",
+      "phone": "9876543214",
+      "joinDate": "2025-02-10"
+    },
+    {
+      "id": 10,
+      "name": "Alice Johnson",
+      "email": "alice@test.com",
+      "password": "123456",
+      "role": "Employee",
+      "department": "Finance",
+      "designation": "Accountant",
+      "phone": "9876543215",
+      "joinDate": "2024-11-01"
+    },
+    {
+      "id": 11,
+      "name": "Bob Wilson",
+      "email": "bob@test.com",
+      "password": "123456",
+      "role": "Employee",
+      "department": "IT",
+      "designation": "Support Lead",
+      "phone": "9876543216",
+      "joinDate": "2024-12-01"
     }
   ],
-
   "payroll": [
     {
       "id": 1,
-      "employeeId": 2,
-      "month": "May 2026",
-      "basicSalary": 50000,
-      "allowances": 8000,
-      "deductions": 2000,
-      "netSalary": 56000
+      "employeeId": 1,
+      "employeeName": "Asha Employee",
+      "month": "2026-05",
+      "basic": 45000,
+      "hra": 18000,
+      "conveyance": 1600,
+      "specialAllowance": 4500,
+      "allowance": 24100,
+      "pf": 5400,
+      "tds": 4500,
+      "professionalTax": 200,
+      "insurance": 1000,
+      "deduction": 11100,
+      "adjustment": 1000
     },
     {
-      "id": 2,
+      "id": 3,
       "employeeId": 3,
-      "month": "May 2026",
-      "basicSalary": 45000,
-      "allowances": 7000,
-      "deductions": 1500,
-      "netSalary": 50500
+      "employeeName": "Sourav Pandey",
+      "month": "2026-05",
+      "basic": 80000,
+      "hra": 32000,
+      "conveyance": 1600,
+      "specialAllowance": 8000,
+      "allowance": 41600,
+      "pf": 9600,
+      "tds": 8000,
+      "professionalTax": 200,
+      "insurance": 1000,
+      "deduction": 18800,
+      "adjustment": 2500
+    },
+    {
+      "id": 4,
+      "employeeId": 4,
+      "employeeName": "Rakesh Mundel",
+      "month": "2026-05",
+      "basic": 50000,
+      "hra": 20000,
+      "conveyance": 1600,
+      "specialAllowance": 5000,
+      "allowance": 26600,
+      "pf: ": 6000,
+      "pf": 6000,
+      "tds": 5000,
+      "professionalTax": 200,
+      "insurance": 1000,
+      "deduction": 12200,
+      "adjustment": 0
+    },
+    {
+      "id": 5,
+      "employeeId": 5,
+      "employeeName": "Luv",
+      "month": "2026-05",
+      "basic": 65000,
+      "hra": 26000,
+      "conveyance": 1600,
+      "specialAllowance": 6500,
+      "allowance": 34100,
+      "pf": 7800,
+      "tds": 6500,
+      "professionalTax": 200,
+      "insurance": 1000,
+      "deduction": 15500,
+      "adjustment": 1500
+    },
+    {
+      "id": 6,
+      "employeeId": 6,
+      "employeeName": "Sankalp",
+      "month": "2026-05",
+      "basic": 60000,
+      "hra: ": 24000,
+      "hra": 24000,
+      "conveyance": 1600,
+      "specialAllowance": 6000,
+      "allowance": 31600,
+      "pf": 7200,
+      "tds": 6000,
+      "professionalTax": 200,
+      "insurance": 1000,
+      "deduction": 14400,
+      "adjustment": -1000
+    },
+    {
+      "id": 7,
+      "employeeId": 7,
+      "employeeName": "Mansi",
+      "month": "2026-05",
+      "basic": 58000,
+      "hra": 23200,
+      "conveyance": 1600,
+      "specialAllowance": 5800,
+      "allowance": 30600,
+      "pf": 6960,
+      "tds": 5800,
+      "professionalTax": 200,
+      "insurance": 1000,
+      "deduction": 13960,
+      "adjustment": 500
+    },
+    {
+      "id": 8,
+      "employeeId": 8,
+      "employeeName": "John Doe",
+      "month": "2026-05",
+      "basic": 35000,
+      "hra": 14000,
+      "conveyance": 1600,
+      "specialAllowance": 3500,
+      "allowance": 19100,
+      "pf": 4200,
+      "tds": 1750,
+      "professionalTax": 200,
+      "insurance": 1000,
+      "deduction": 7150,
+      "adjustment": -500
+    },
+    {
+      "id": 9,
+      "employeeId": 9,
+      "employeeName": "Jane Smith",
+      "month": "2026-05",
+      "basic": 32000,
+      "hra": 12800,
+      "conveyance": 1600,
+      "specialAllowance: ": 3200,
+      "specialAllowance": 3200,
+      "allowance": 17600,
+      "pf": 3840,
+      "tds": 1600,
+      "professionalTax": 200,
+      "insurance": 1000,
+      "deduction": 6640,
+      "adjustment: ": 1200,
+      "adjustment": 1200
+    },
+    {
+      "id": 10,
+      "employeeId": 10,
+      "employeeName": "Alice Johnson",
+      "month": "2026-05",
+      "basic": 55000,
+      "hra": 22000,
+      "conveyance": 1600,
+      "specialAllowance": 5500,
+      "allowance": 29100,
+      "pf": 6600,
+      "tds": 5500,
+      "professionalTax": 200,
+      "insurance": 1000,
+      "deduction": 13300,
+      "adjustment": -1500
+    },
+    {
+      "id": 11,
+      "employeeId": 11,
+      "employeeName": "Bob Wilson",
+      "month": "2026-05",
+      "basic": 28000,
+      "hra": 11200,
+      "conveyance": 1600,
+      "specialAllowance": 2800,
+      "allowance": 15600,
+      "pf": 3360,
+      "tds": 1400,
+      "professionalTax": 200,
+      "insurance": 1000,
+      "deduction": 5960,
+      "adjustment": 800
     }
   ],
-
-  "leaveBalances": [
+  "leaveRequests": [
     {
-      "id": 1,
-      "employeeId": 2,
-      "casualLeave": 8,
-      "sickLeave": 6,
-      "earnedLeave": 12
+      "id": 101,
+      "employeeId": 1,
+      "employeeName": "Asha Employee",
+      "type": "Sick",
+      "fromDate": "2026-06-12",
+      "toDate": "2026-06-12",
+      "days": 1,
+      "reason": "Doctor appointment",
+      "status": "Rejected",
+      "adminRemark": "Rejected"
     },
     {
-      "id": 2,
+      "id": 1781336646493,
       "employeeId": 3,
-      "casualLeave": 10,
-      "sickLeave": 5,
-      "earnedLeave": 15
+      "employeeName": "Sourav Pandey",
+      "type": "Earned",
+      "fromDate": "2026-06-13",
+      "toDate": "2026-06-13",
+      "days": 1,
+      "reason": "going on a trip",
+      "status": "Approved",
+      "adminRemark": "Approved"
+    },
+    {
+      "id": 1781337915704,
+      "employeeId": 1,
+      "employeeName": "Asha Employee",
+      "type": "Sick",
+      "fromDate": "2026-06-20",
+      "toDate": "2026-06-22",
+      "days": 3,
+      "reason": "asdfghjklzxcvbnm,",
+      "status": "Rejected",
+      "adminRemark": "Rejected"
     }
   ],
-
-  "notifications": [
-    {
-      "id": 1,
-      "employeeId": 2,
-      "message": "Your leave request is pending approval.",
-      "read": false
-    },
-    {
-      "id": 2,
-      "employeeId": 3,
-      "message": "Your payslip for May 2026 is available.",
-      "read": true
-    }
-  ]
+  "profileRequests": []
 }

@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
 import { NotificationService } from '../../../core/services/notification.service';
@@ -11,6 +11,6 @@ export class MarkAttendence {
     const user = this.auth.currentUser();
     if (!user) return;
     const result = this.attendance.mark(user.id);
-    this.notes.add(result === 'created' ? 'Attendance marked for today.' : 'Today attendance is already marked.', 'Attendance');
+    this.notes.add(result === 'created' ? 'Attendance marked for today.' : 'Today attendance is already marked.', 'Attendance', user.id);
   }
 }

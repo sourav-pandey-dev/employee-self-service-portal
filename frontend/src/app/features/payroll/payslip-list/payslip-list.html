@@ -1,1 +1,24 @@
-﻿<section class="panel"><h1>Payslips</h1><table><tr><th>Month</th><th>Employee</th><th>Net Pay</th><th>Action</th></tr><tr *ngFor="let payslip of payroll.payslips()"><td>{{ payslip.month }}</td><td>{{ payslip.employeeName }}</td><td>{{ payslip.netPay | currencyFormat }}</td><td><a [routerLink]="['/payslip', payslip.id]">View</a></td></tr></table></section>
+<section class="panel">
+  <h1>Payslips</h1>
+  <div *ngIf="filteredPayslips.length === 0" style="padding: 20px 0; text-align: center; color: #6b7280;">
+    <p>No payslips found.</p>
+  </div>
+  <table *ngIf="filteredPayslips.length > 0">
+    <thead>
+      <tr>
+        <th>Month</th>
+        <th>Employee</th>
+        <th>Net Pay</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let payslip of filteredPayslips">
+        <td>{{ payslip.month }}</td>
+        <td>{{ payslip.employeeName }}</td>
+        <td>{{ payslip.netPay | currencyFormat }}</td>
+        <td><a [routerLink]="['/payslip', payslip.id]">View</a></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
