@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { AuthService } from '../../../core/auth/auth.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { AttendenceService } from '../../attendence/attendence.service';
-import { loadLeaves } from '../../leave/store/leave.action';
+import { changeLeaveStatus, loadLeaves } from '../../leave/store/leave.action';
 import { selectAllLeaves } from '../../leave/store/leave.selectors';
 
 @Component({ selector: 'app-employee-dashboard', standalone: true, imports: [CommonModule, RouterLink], templateUrl: './employee-dashboard.html', styleUrl: './employee-dashboard.css' })
@@ -20,9 +20,25 @@ export class EmployeeDashboard {
   leaves$ = this.store.select(selectAllLeaves);
   unreadCount = computed(() => this.notification.userNotifications().filter(item => !item.read).length);
   calendarDays = computed(() => this.buildCalendarDays());
+  selectedLeave: any = null;
 
   constructor() {
     this.store.dispatch(loadLeaves());
+  }
+
+  viewLeave(leave: any): void {
+    this.selectedLeave = leave;
+  }
+
+  closeLeaveModal(): void {
+    this.selectedLeave = null;
+  }
+
+  cancelLeave(id: number): void {
+    if (confirm('Are you sure you want to cancel this leave request?')) {
+      this.store.dispatch(changeLeaveStatus({ id, status: 'Cancelled' }));
+      this.notification.add('Leave request cancelled.', 'Leave');
+    }
   }
 
   private buildCalendarDays() {

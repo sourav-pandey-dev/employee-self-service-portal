@@ -60,6 +60,12 @@ export class LeaveService {
     );
   }
 
+  updateRequest(updated: LeaveRequest): Observable<LeaveRequest> {
+    const requests = this.read().map(request => request.id === updated.id ? updated : request);
+    localStorage.setItem(this.key, JSON.stringify(requests));
+    return of(updated).pipe(delay(150));
+  }
+
   balances(): LeaveBalance[] {
     const approved = this.leaveRequests().filter(item => item.status === 'Approved');
     const total = { Casual: 12, Sick: 10, Earned: 15 };

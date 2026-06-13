@@ -10,7 +10,7 @@
     <label>Phone <input appInputMask formControlName="phone"></label>
     <label>Join Date <input type="date" formControlName="joinDate"></label>
     <small>{{ message }}</small>
-    <button type="submit">Register</button>
+    <button type="submit" [disabled]="loading">{{ loading ? 'Creating account...' : 'Sign Up' }}</button>
     <a routerLink="/login">Back to login</a>
   </form>
 </section>

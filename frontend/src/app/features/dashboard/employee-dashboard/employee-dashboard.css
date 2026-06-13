@@ -21,6 +21,8 @@ tbody tr:hover { background: #f8fafc; }
 .status-pill { display: inline-flex; justify-content: center; min-width: 74px; padding: 4px 11px; border-radius: 999px; font-size: 13px; line-height: 1; }
 .status-pill.pending { background: #fde7a8; color: #7a5a00; }
 .status-pill.approved { background: #bbefc8; color: #156c2e; }
+.status-pill.rejected { background: #fee2e2; color: #991b1b; }
+.status-pill.correction { background: #dbeafe; color: #1e40af; }
 .table-actions { display: flex; gap: 14px; white-space: nowrap; }
 .table-actions a { color: #111827; text-decoration: none; font-size: 14px; }
 .table-actions a:hover { color: #1d4ed8; }
@@ -64,3 +66,163 @@ details:not([open]) summary::after { transform: rotate(180deg); }
   .calendar-heading { flex-direction: column; }
   .calendar-grid { gap: 6px; }
 }
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: modalEnter 0.2s ease-out;
+}
+
+@keyframes modalEnter {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #64748b;
+  padding: 0;
+}
+
+.close-btn:hover {
+  color: #0f172a;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.detail-row {
+  display: flex;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.detail-row .label {
+  font-weight: 600;
+  color: #64748b;
+  width: 120px;
+  min-width: 120px;
+}
+
+.detail-row .value {
+  color: #0f172a;
+}
+
+.modal-footer {
+  padding: 12px 20px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-footer button {
+  padding: 8px 16px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.modal-footer button:hover {
+  background: #1d4ed8;
+}
+
+/* Action button styles */
+.table-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-action {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+
+.btn-action:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.btn-action.view {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #2563eb;
+}
+
+.btn-action.view:hover {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.btn-action.modify {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #16a34a;
+}
+
+.btn-action.modify:hover {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.btn-action.cancel.danger {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+}
+
+.btn-action.cancel.danger:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
