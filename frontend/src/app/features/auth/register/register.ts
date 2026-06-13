@@ -12,15 +12,24 @@ export class Register {
   private auth = inject(AuthService);
   private router = inject(Router);
   message = '';
+  loading = false;
   form = this.fb.group({ name: ['', Validators.required], email: ['', [Validators.required, Validators.email]], password: ['', Validators.required], role: ['Employee', Validators.required], department: ['', Validators.required], designation: ['', Validators.required], phone: ['', [Validators.required, Validators.minLength(10)]], joinDate: ['', Validators.required] });
   register(): void {
-    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
-    this.auth.register(this.form.getRawValue() as any).subscribe(ok => {
-      if (!ok) {
-        this.message = 'Email already exists.';
-        return;
+    if (this.form.invalid || this.loading) { this.form.markAllAsTouched(); return; }
+    this.loading = true;
+    this.auth.register(this.form.getRawValue() as any).subscribe({
+      next: ok => {
+        this.loading = false;
+        if (!ok) {
+          this.message = 'Email already exists.';
+          return;
+        }
+        this.router.navigate(['/login']);
+      },
+      error: () => {
+        this.loading = false;
+        this.message = 'Registration failed. Please try again.';
       }
-      this.router.navigate(['/login']);
     });
   }
 }

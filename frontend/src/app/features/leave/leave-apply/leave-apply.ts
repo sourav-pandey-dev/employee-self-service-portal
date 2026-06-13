@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -34,5 +34,54 @@ export class LeaveApply implements OnInit {
   editingLeaveId: number | null = null;
 
   constructor() { this.store.dispatch(loadLeaves()); }
-  apply(): void { if (this.form.invalid) { this.form.markAllAsTouched(); return; } const value = this.form.getRawValue(); const oneDay = 24 * 60 * 60 * 1000; const days = Math.floor((new Date(value.toDate || '').getTime() - new Date(value.fromDate || '').getTime()) / oneDay) + 1; const user = this.auth.currentUser(); if (!user) return; this.store.dispatch(applyLeave({ leave: { id: Date.now(), employeeId: user.id, employeeName: user.name, type: value.type as any, fromDate: value.fromDate || '', toDate: value.toDate || '', days, reason: value.reason || '', status: 'Pending' } })); this.notes.add('Leave request submitted.', 'Leave', user.id); this.form.reset({ type: 'Casual' }); }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      const id = Number(params['id']);
+      if (id) {
+        this.store.select(selectAllLeaves).pipe(take(1)).subscribe(leaves => {
+          const leave = leaves.find(l => l.id === id);
+          if (leave && leave.status === 'Pending') {
+            this.editMode = true;
+            this.editingLeaveId = id;
+            this.form.patchValue({
+              type: leave.type,
+              fromDate: leave.fromDate,
+              toDate: leave.toDate,
+              reason: leave.reason
+            });
+          }
+        });
+      }
+    });
+  }
+
+  cancelEdit(): void {
+    this.editMode = false;
+    this.editingLeaveId = null;
+    this.form.reset({ type: 'Casual' });
+    this.router.navigate([], { relativeTo: this.route, queryParams: {} });
+  }
+
+  apply(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    const value = this.form.getRawValue();
+    const oneDay = 24 * 60 * 60 * 1000;
+    const days = Math.floor((new Date(value.toDate || '').getTime() - new Date(value.fromDate || '').getTime()) / oneDay) + 1;
+    const user = this.auth.currentUser();
+    if (!user) return;
+
+    if (this.editMode && this.editingLeaveId) {
+      this.store.dispatch(updateLeave({ leave: { id: this.editingLeaveId, employeeId: user.id, employeeName: user.name, type: value.type as any, fromDate: value.fromDate || '', toDate: value.toDate || '', days, reason: value.reason || '', status: 'Pending' } }));
+      this.notes.add('Leave request updated.', 'Leave', user.id);
+      this.cancelEdit();
+    } else {
+      this.store.dispatch(applyLeave({ leave: { id: Date.now(), employeeId: user.id, employeeName: user.name, type: value.type as any, fromDate: value.fromDate || '', toDate: value.toDate || '', days, reason: value.reason || '', status: 'Pending' } }));
+      this.notes.add('Leave request submitted.', 'Leave', user.id);
+      this.form.reset({ type: 'Casual' });
+    }
+  }
 }
