@@ -61,9 +61,9 @@ export class LeaveService {
   }
 
   updateRequest(updated: LeaveRequest): Observable<LeaveRequest> {
-    const requests = this.read().map(request => request.id === updated.id ? updated : request);
-    localStorage.setItem(this.key, JSON.stringify(requests));
-    return of(updated).pipe(delay(150));
+    return this.http.put<LeaveRequest>(`http://localhost:3000/leaveRequests/${updated.id}`, updated).pipe(
+      tap(res => this.leaveRequests.update(items => items.map(item => item.id === res.id ? res : item)))
+    );
   }
 
   balances(): LeaveBalance[] {

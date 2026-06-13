@@ -1,7 +1,7 @@
 <section class="auth-card">
   <h1>Employee Portal Login</h1>
   <div class="login-options" role="tablist" aria-label="Login type">
-    <button type="button" [class.active]="loginType === 'Customer'" (click)="selectLogin('Customer')">Employee Login</button>
+    <button type="button" [class.active]="loginType === 'Employee'" (click)="selectLogin('Employee')">Employee Login</button>
     <button type="button" [class.active]="loginType === 'Admin'" (click)="selectLogin('Admin')">Admin Login</button>
   </div>
 
@@ -12,6 +12,6 @@
     <label>Password <input type="password" formControlName="password"></label>
     <small *ngIf="error">{{ error }}</small>
     <button type="submit" [disabled]="loading">{{ loading ? 'Logging in...' : 'Login' }}</button>
-    <a *ngIf="loginType === 'Customer'" routerLink="/register">New employee? Sign up</a>
+    <a *ngIf="loginType === 'Employee'" routerLink="/register">New employee? Sign up</a>
   </form>
 </section>
