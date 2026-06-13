@@ -1,4 +1,4 @@
-﻿import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StatusBadge } from '../../../shared/components/status-badge/status-badge';
@@ -12,5 +12,5 @@ export class AdminApprovals {
   private store = inject(Store); private notes = inject(NotificationService);
   pending$ = this.store.select(selectPendingLeaves);
   constructor() { this.store.dispatch(loadLeaves()); }
-  update(id: number, status: 'Approved' | 'Rejected' | 'Correction'): void { this.store.dispatch(changeLeaveStatus({ id, status, remark: status })); this.notes.add(`Leave ${status.toLowerCase()}.`, 'Leave'); }
+  update(id: number, employeeId: number, status: 'Approved' | 'Rejected' | 'Correction'): void { this.store.dispatch(changeLeaveStatus({ id, status, remark: status })); this.notes.add(`Leave ${status.toLowerCase()}.`, 'Leave', employeeId); }
 }

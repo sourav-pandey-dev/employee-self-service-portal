@@ -3,12 +3,14 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
+import { ProfileService } from '../profile.service';
 import { User } from '../../../core/models/user.model';
 
 @Component({ selector: 'app-profile-edit', standalone: true, imports: [CommonModule, ReactiveFormsModule], templateUrl: './profile-edit.html', styleUrl: './profile-edit.css' })
 export class ProfileEdit {
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
+  private profileService = inject(ProfileService);
   private router = inject(Router);
   previewImage = '';
   imageMessage = '';
@@ -57,16 +59,38 @@ export class ProfileEdit {
     if (!user || this.form.invalid) return;
 
     const value = this.form.getRawValue();
-    const updated: User = {
-      ...user,
-      name: value.name || '',
-      phone: value.phone || '',
-      department: value.department || '',
-      designation: value.designation || '',
-      profileImage: this.previewImage || undefined
-    };
+    const name = value.name || '';
+    const phone = value.phone || '';
+    const department = value.department || '';
+    const designation = value.designation || '';
 
-    this.auth.updateProfile(updated);
+    if (user.role === 'Admin') {
+      const updated: User = {
+        ...user,
+        name,
+        phone,
+        department,
+        designation,
+        profileImage: this.previewImage || undefined
+      };
+      this.auth.updateProfile(updated);
+    } else {
+      const hasChanges =
+        name !== user.name ||
+        phone !== user.phone ||
+        department !== user.department ||
+        designation !== user.designation;
+
+      if (hasChanges) {
+        this.profileService.createRequest(
+          user.id,
+          user.name,
+          user.email,
+          { name: user.name, phone: user.phone, department: user.department, designation: user.designation },
+          { name, phone, department, designation }
+        );
+      }
+    }
     this.router.navigate(['/profile']);
   }
 

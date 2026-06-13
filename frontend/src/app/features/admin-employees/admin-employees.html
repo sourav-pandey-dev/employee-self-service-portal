@@ -1,0 +1,105 @@
+<section class="panel">
+  <header class="panel-header">
+    <h1>Employee Directory</h1>
+    <p class="subtitle text-muted">View and modify active employee profiles within the company.</p>
+  </header>
+
+  <div *ngIf="employees.length === 0" class="empty-state">
+    <p>No employees found.</p>
+  </div>
+
+  <table *ngIf="employees.length > 0" class="directory-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Designation</th>
+        <th>Phone</th>
+        <th>Join Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let emp of employees">
+        <td>
+          <div class="emp-profile">
+            <img [src]="emp.profileImage || '/profile-avatar.svg'" alt="profile" class="avatar">
+            <strong>{{ emp.name }}</strong>
+          </div>
+        </td>
+        <td>{{ emp.email }}</td>
+        <td>{{ emp.department }}</td>
+        <td>{{ emp.designation }}</td>
+        <td>{{ emp.phone }}</td>
+        <td>{{ emp.joinDate }}</td>
+        <td>
+          <div class="action-buttons">
+            <button (click)="openEdit(emp)" class="btn-edit">Edit Profile</button>
+            <button (click)="openPayroll(emp)" class="btn-payroll">Manage Payroll</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Payroll Modal Overlay -->
+<div class="modal-overlay" *ngIf="showPayrollModal">
+  <div class="modal-card">
+    <h2>Manage Payroll</h2>
+    <p class="subtitle text-muted" style="margin-bottom: 20px;">Input salary details for: <strong>{{ payrollEmployee?.name }}</strong></p>
+
+    <form [formGroup]="payrollForm" (ngSubmit)="savePayroll()" class="edit-form">
+      <label>
+        Month
+        <input type="month" formControlName="month">
+      </label>
+      <label>
+        Basic Salary
+        <input type="number" formControlName="basic">
+      </label>
+      <label>
+        Adjustment (Bonus / LOP)
+        <input type="number" formControlName="adjustment">
+      </label>
+
+      <div class="modal-actions">
+        <button type="submit" class="btn-save" [disabled]="payrollForm.invalid">Save Payroll</button>
+        <button type="button" class="btn-cancel" (click)="closePayroll()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Overlay Editor -->
+<div class="modal-overlay" *ngIf="showEditModal">
+  <div class="modal-card">
+    <h2>Edit Employee Profile</h2>
+    <p class="subtitle text-muted" style="margin-bottom: 20px;">Updating records for: <strong>{{ editingEmployee?.email }}</strong></p>
+
+    <form [formGroup]="form" (ngSubmit)="saveChanges()" class="edit-form">
+      <label>
+        Full Name
+        <input formControlName="name">
+      </label>
+      <label>
+        Phone Number
+        <input formControlName="phone">
+      </label>
+      <label>
+        Department
+        <input formControlName="department">
+      </label>
+      <label>
+        Designation
+        <input formControlName="designation">
+      </label>
+
+      <div class="modal-actions">
+        <button type="submit" class="btn-save" [disabled]="form.invalid">Save Changes</button>
+        <button type="button" class="btn-cancel" (click)="closeEdit()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

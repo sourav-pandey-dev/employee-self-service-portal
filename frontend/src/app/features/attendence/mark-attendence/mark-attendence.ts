@@ -17,6 +17,6 @@ export class MarkAttendence {
     const user = this.auth.currentUser();
     if (!user) return;
     const result = this.attendance.mark(user.id);
-    this.notes.add(result === 'created' ? 'Attendance marked for today.' : 'Today attendance is already marked.', 'Attendance');
+    this.notes.add(result === 'created' ? 'Attendance marked for today.' : 'Today attendance is already marked.', 'Attendance', user.id);
   }
 }

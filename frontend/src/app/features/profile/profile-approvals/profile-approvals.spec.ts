@@ -1,22 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { ProfileApprovals } from './profile-approvals';
 
-import { PayslipDetail } from './payslip-detail';
-
-describe('PayslipDetail', () => {
-  let component: PayslipDetail;
-  let fixture: ComponentFixture<PayslipDetail>;
+describe('ProfileApprovals', () => {
+  let component: ProfileApprovals;
+  let fixture: ComponentFixture<ProfileApprovals>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PayslipDetail],
+      imports: [ProfileApprovals],
       providers: [
         provideRouter([])
       ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PayslipDetail);
+    fixture = TestBed.createComponent(ProfileApprovals);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

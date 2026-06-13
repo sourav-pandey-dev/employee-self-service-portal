@@ -1,8 +1,14 @@
-﻿import { Component, EventEmitter, inject, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-export interface DynamicField { name: string; label: string; type: 'text' | 'number' | 'month'; required?: boolean; }
+export interface DynamicField {
+  name: string;
+  label: string;
+  type: 'text' | 'number' | 'month' | 'select';
+  required?: boolean;
+  options?: { value: string | number; label: string }[];
+}
 
 @Component({ selector: 'app-dynamic-form', standalone: true, imports: [CommonModule, ReactiveFormsModule], templateUrl: './dynamic-form.html', styleUrl: './dynamic-form.css' })
 export class DynamicForm implements OnChanges {

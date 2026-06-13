@@ -18,7 +18,7 @@ export class EmployeeDashboard {
   monthLabel = this.today.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
   weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   leaves$ = this.store.select(selectAllLeaves);
-  unreadCount = computed(() => this.notification.notifications().filter(item => !item.read).length);
+  unreadCount = computed(() => this.notification.userNotifications().filter(item => !item.read).length);
   calendarDays = computed(() => this.buildCalendarDays());
   selectedLeave: any = null;
 

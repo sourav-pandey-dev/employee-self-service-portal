@@ -1,56 +1,84 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, map, of, switchMap, timeout } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { User } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://127.0.0.1:3001/users';
   private sessionKey = 'portal_current_user';
   currentUser = signal<User | null>(this.loadCurrentUser());
+  usersSignal = signal<User[]>([]);
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient) {
+    this.loadUsers();
+  }
 
-  register(user: Omit<User, 'id' | 'role'>): Observable<boolean> {
-    const email = user.email.trim().toLowerCase();
+  private loadUsers(): void {
+    this.http.get<User[]>('http://localhost:3000/users').subscribe({
+      next: (data) => this.usersSignal.set(data),
+      error: (err) => console.error('Failed to load users from mock server', err)
+    });
+  }
 
-    return this.findUserByEmail(email).pipe(
-      switchMap(existing => {
-        if (existing) {
-          return of(false);
-        }
+  private getItem(key: string): string | null {
+    try {
+      if (typeof localStorage !== 'undefined' && typeof localStorage.getItem === 'function') {
+        return localStorage.getItem(key);
+      }
+    } catch {
+      // Ignore
+    }
+    return null;
+  }
 
-        const newUser: Omit<User, 'id'> = {
-          ...user,
-          email,
-          role: 'Customer'
-        };
+  private setItem(key: string, value: string): void {
+    try {
+      if (typeof localStorage !== 'undefined' && typeof localStorage.setItem === 'function') {
+        localStorage.setItem(key, value);
+      }
+    } catch {
+      // Ignore
+    }
+  }
 
-        return this.http.post<User>(this.apiUrl, newUser).pipe(
-          timeout(5000),
-          map(() => true)
-        );
-      })
+  private removeItem(key: string): void {
+    try {
+      if (typeof localStorage !== 'undefined' && typeof localStorage.removeItem === 'function') {
+        localStorage.removeItem(key);
+      }
+    } catch {
+      // Ignore
+    }
+  }
+
+  register(user: Omit<User, 'id'>): Observable<boolean> {
+    if (this.usersSignal().some(item => item.email === user.email)) {
+      return of(false);
+    }
+    const newUser: User = { ...user, id: Date.now() };
+    return this.http.post<User>('http://localhost:3000/users', newUser).pipe(
+      map(saved => {
+        this.usersSignal.update(users => [...users, saved]);
+        return true;
+      }),
+      catchError(() => of(false))
     );
   }
 
-  login(email: string, password: string): Observable<boolean> {
-    return this.findUserByEmail(email.trim().toLowerCase()).pipe(
-      map(user => {
-        if (!user || user.password !== password) {
-          return false;
-        }
-
-        localStorage.setItem(this.sessionKey, JSON.stringify(user));
-        this.currentUser.set(user);
-        return true;
-      })
-    );
+  login(email: string, password: string): boolean {
+    const user = this.usersSignal().find(item => item.email === email && item.password === password);
+    if (!user) {
+      return false;
+    }
+    this.setItem(this.sessionKey, JSON.stringify(user));
+    this.currentUser.set(user);
+    return true;
   }
 
   logout(): void {
-    localStorage.removeItem(this.sessionKey);
+    this.removeItem(this.sessionKey);
     this.currentUser.set(null);
     this.router.navigate(['/login']);
   }
@@ -59,25 +87,26 @@ export class AuthService {
     return this.currentUser() !== null;
   }
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl).pipe(timeout(5000));
+  getUsers(): User[] {
+    return this.usersSignal();
   }
 
   updateProfile(updated: User): void {
-    localStorage.setItem(this.sessionKey, JSON.stringify(updated));
-    this.currentUser.set(updated);
-    this.http.put<User>(`${this.apiUrl}/${updated.id}`, updated).pipe(timeout(5000)).subscribe();
+    this.http.put<User>(`http://localhost:3000/users/${updated.id}`, updated).subscribe({
+      next: (savedUser) => {
+        this.usersSignal.update(users => users.map(user => user.id === savedUser.id ? savedUser : user));
+        const current = this.currentUser();
+        if (current && current.id === savedUser.id) {
+          this.setItem(this.sessionKey, JSON.stringify(savedUser));
+          this.currentUser.set(savedUser);
+        }
+      },
+      error: (err) => console.error('Failed to update user profile', err)
+    });
   }
 
   private loadCurrentUser(): User | null {
-    const value = localStorage.getItem(this.sessionKey);
+    const value = this.getItem(this.sessionKey);
     return value ? JSON.parse(value) as User : null;
-  }
-
-  private findUserByEmail(email: string): Observable<User | undefined> {
-    return this.http.get<User[]>(`${this.apiUrl}?email=${encodeURIComponent(email)}`).pipe(
-      timeout(5000),
-      map(users => users[0])
-    );
   }
 }

@@ -1,4 +1,4 @@
-﻿import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -12,35 +12,15 @@ export class Register {
   private auth = inject(AuthService);
   private router = inject(Router);
   message = '';
-  loading = false;
-  form = this.fb.group({ name: ['', Validators.required], email: ['', [Validators.required, Validators.email]], password: ['', Validators.required], department: ['', Validators.required], designation: ['', Validators.required], phone: ['', [Validators.required, Validators.minLength(10)]], joinDate: ['', Validators.required] });
-
+  form = this.fb.group({ name: ['', Validators.required], email: ['', [Validators.required, Validators.email]], password: ['', Validators.required], role: ['Employee', Validators.required], department: ['', Validators.required], designation: ['', Validators.required], phone: ['', [Validators.required, Validators.minLength(10)]], joinDate: ['', Validators.required] });
   register(): void {
-    if (this.form.invalid || this.loading) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
-    this.loading = true;
-    this.message = '';
-
-    this.auth.register(this.form.getRawValue() as any).pipe(
-      finalize(() => this.loading = false)
-    ).subscribe({
-      next: ok => {
-        if (!ok) {
-          this.message = 'Email already exists.';
-          window.alert(this.message);
-          return;
-        }
-
-        window.alert('Account created successfully. Please login.');
-        this.router.navigate(['/login']);
-      },
-      error: () => {
-        this.message = 'Start json-server with db.json, then try again.';
-        window.alert(this.message);
+    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+    this.auth.register(this.form.getRawValue() as any).subscribe(ok => {
+      if (!ok) {
+        this.message = 'Email already exists.';
+        return;
       }
+      this.router.navigate(['/login']);
     });
   }
 }

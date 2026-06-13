@@ -1,0 +1,68 @@
+<section class="panel">
+  <header class="panel-header">
+    <h1>Profile Update Approvals</h1>
+    <p class="subtitle text-muted">Review and action requested modifications to employee profile details.</p>
+  </header>
+
+  <div *ngIf="pendingRequests.length === 0" class="empty-state">
+    <p>No pending profile approvals.</p>
+  </div>
+
+  <div *ngIf="pendingRequests.length > 0" class="requests-list">
+    <div *ngFor="let req of pendingRequests" class="request-card">
+      <div class="request-header">
+        <div class="user-meta">
+          <h3>{{ req.userName }}</h3>
+          <span class="email text-muted">{{ req.userEmail }}</span>
+        </div>
+        <div class="request-date text-muted">
+          Requested: {{ req.requestedAt }}
+        </div>
+      </div>
+
+      <div class="request-body">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Current Value</th>
+              <th></th>
+              <th>New Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="req.newValues.name !== req.oldValues.name">
+              <td><strong>Name</strong></td>
+              <td class="old-value">{{ req.oldValues.name }}</td>
+              <td class="arrow">&rarr;</td>
+              <td class="new-value">{{ req.newValues.name }}</td>
+            </tr>
+            <tr *ngIf="req.newValues.phone !== req.oldValues.phone">
+              <td><strong>Phone</strong></td>
+              <td class="old-value">{{ req.oldValues.phone }}</td>
+              <td class="arrow">&rarr;</td>
+              <td class="new-value">{{ req.newValues.phone }}</td>
+            </tr>
+            <tr *ngIf="req.newValues.department !== req.oldValues.department">
+              <td><strong>Department</strong></td>
+              <td class="old-value">{{ req.oldValues.department }}</td>
+              <td class="arrow">&rarr;</td>
+              <td class="new-value">{{ req.newValues.department }}</td>
+            </tr>
+            <tr *ngIf="req.newValues.designation !== req.oldValues.designation">
+              <td><strong>Designation</strong></td>
+              <td class="old-value">{{ req.oldValues.designation }}</td>
+              <td class="arrow">&rarr;</td>
+              <td class="new-value">{{ req.newValues.designation }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="request-footer">
+        <button (click)="approve(req.id)" class="btn-approve">Approve</button>
+        <button (click)="reject(req.id)" class="btn-reject">Reject</button>
+      </div>
+    </div>
+  </div>
+</section>

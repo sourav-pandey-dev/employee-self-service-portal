@@ -1,4 +1,4 @@
-﻿import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/auth/auth.service';
@@ -10,5 +10,5 @@ import { AttendenceService } from '../attendence.service';
 export class CorrectionRequest {
   private fb = inject(FormBuilder); private auth = inject(AuthService); private attendance = inject(AttendenceService); private notes = inject(NotificationService);
   form = this.fb.group({ date: ['', Validators.required], requestedStatus: ['Present', Validators.required], remark: ['', attendanceRemarkValidator] });
-  submit(): void { if (this.form.invalid) { this.form.markAllAsTouched(); return; } const user = this.auth.currentUser(); if (!user) return; this.attendance.requestCorrection({ id: Date.now(), employeeId: user.id, employeeName: user.name, date: this.form.value.date || '', requestedStatus: this.form.value.requestedStatus as any, remark: this.form.value.remark || '', status: 'Pending' }); this.notes.add('Attendance correction sent to admin.', 'Attendance'); this.form.reset({ requestedStatus: 'Present' }); }
+  submit(): void { if (this.form.invalid) { this.form.markAllAsTouched(); return; } const user = this.auth.currentUser(); if (!user) return; this.attendance.requestCorrection({ id: Date.now(), employeeId: user.id, employeeName: user.name, date: this.form.value.date || '', requestedStatus: this.form.value.requestedStatus as any, remark: this.form.value.remark || '', status: 'Pending' }); this.notes.add('Attendance correction sent to admin.', 'Attendance', user.id); this.form.reset({ requestedStatus: 'Present' }); }
 }

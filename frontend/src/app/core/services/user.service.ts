@@ -1,4 +1,4 @@
-﻿import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -10,9 +10,9 @@ export class UserService {
   constructor(private http: HttpClient, private auth: AuthService) {}
 
   getEmployees(): Observable<User[]> {
-    return this.http.get<{ users: User[] }>('/assets/users.json').pipe(
-      map(response => response.users),
-      catchError(() => this.auth.getUsers())
+    return this.http.get<User[]>('http://localhost:3000/users').pipe(
+      map(users => users.filter(u => u.role !== 'Admin')),
+      catchError(() => of([]))
     );
   }
 }
