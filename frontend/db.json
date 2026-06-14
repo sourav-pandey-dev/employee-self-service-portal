@@ -334,6 +334,18 @@
       "reason": "asdfghjklzxcvbnm,",
       "status": "Rejected",
       "adminRemark": "Rejected"
+    },
+    {
+      "id": 1781359662258,
+      "employeeId": 3,
+      "employeeName": "Sourav Pandey",
+      "type": "Casual",
+      "fromDate": "2026-06-26",
+      "toDate": "2026-06-30",
+      "days": 5,
+      "reason": "asdfhjklgfkzdv dfegg",
+      "status": "Cancelled",
+      "adminRemark": ""
     }
   ],
   "profileRequests": []

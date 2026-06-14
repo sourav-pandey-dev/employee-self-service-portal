@@ -50,14 +50,12 @@ export class PayrollInputs implements OnInit {
     const adjustment = Number(value['adjustment'] || 0);
     const month = String(value['month']);
 
-    // Structured breakdown calculations
     const hra = Math.round(basic * 0.40);
     const conveyance = 1600;
     const specialAllowance = Math.round(basic * 0.10);
     const allowance = hra + conveyance + specialAllowance;
 
     const pf = Math.round(basic * 0.12);
-    // TDS sliding scale: 0 if basic < 20000, 5% if basic < 40000, 10% if basic >= 40000
     const tdsRate = basic < 20000 ? 0 : (basic < 40000 ? 0.05 : 0.10);
     const tds = Math.round(basic * tdsRate);
     const professionalTax = 200;

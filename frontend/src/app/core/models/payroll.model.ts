@@ -8,12 +8,10 @@ export interface PayrollInput {
   deduction: number;
   adjustment: number;
 
-  // Earnings breakdown
   hra: number;
   conveyance: number;
   specialAllowance: number;
 
-  // Deductions breakdown
   pf: number;
   tds: number;
   professionalTax: number;

@@ -1,4 +1,4 @@
-<nav class="navbar" *ngIf="auth.currentUser() as user">
+<nav class="navbar" *ngIf="shouldShow() && auth.currentUser() as user">
   <a [routerLink]="user.role === 'Admin' ? '/admin/dashboard' : '/dashboard'" class="brand">
     <span class="brand-mark">EP</span>
     <span>Employee Portal</span>
